@@ -1,40 +1,57 @@
 <script>
-import * as prismicH from "@prismicio/helpers";
+	// @ts-nocheck
+    import * as prismicH from '@prismicio/helpers'
+	import MainContainer from 'components/MainContainer.svelte';
+	import PostCard from 'components/PostCard.svelte';
+	import StickyPost from 'components/StickyPost.svelte';
 
-import MainContainer from 'components/MainContainer.svelte';
-import PostCard from 'components/PostCard.svelte';
-import StickyPost from 'components/StickyPost.svelte';
+	/** @type {import('./$types').PageData} */
+	export let data;
+	// @ts-ignore
 
-/** @type {import('./$types').PageData} */
-export let data;
-// @ts-ignore
-const sticky = data?.sticky;
+	let posts;
+	let sticky;
 
+	$: {
+		posts = data.documents.filter((d) => d.data.sticky_post == false);
+	}
+	$: {
+		sticky = data.documents.filter((d) => d.data.sticky_post == true)[0];
+	}
 </script>
 
 <MainContainer>
-    <!-- Sticky Post -->
-    <!-- {JSON.stringify(sticky)} -->
-    <StickyPost
-        pubDate ={sticky[0].node._meta.firstPublicationDate}
-        slug={sticky[0].node._meta.uid}
-        image={sticky[0].node.featured_img_link}
-        title={sticky[0].node.title}
-        summary={sticky[0].node.post_excerpt}
-        />
-        <!-- Post Grid   -->
-        <div class="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {' '}
+	<!-- Sticky Post -->
+	<!-- {JSON.stringify(posts)} -->
 
-            {#each data?.documents as document}
-            <!-- {JSON.stringify(document.node)} -->
-            <PostCard
-                thumb={document.node.featured_img_link.url}
-                title={document.node.title[0].text}
-                pubDate={ prismicH.asDate(document.node._meta.firstPublicationDate)?.toDateString()}
-                slug={document.node._meta.uid}
+	<StickyPost
+		pubDate={sticky.first_publication_date}
+		slug={sticky.uid}
+		image={sticky.data?.featured_img_link}
+		title={sticky.data?.title}
+		summary={sticky.data?.post_excerpt}
+	/>
+	<!-- Post Grid   -->
+	<div class="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{' '}
+		<!-- {#await posts}
+			<p>waiting for the promise to resolve...</p>
+		{:then value} -->
+	 
+
+			{#each posts as post}
+	 
+
+				<PostCard
+                thumb={prismicH.asImageSrc(post?.data?.featured_img_link)}
+                title={prismicH.asText(post.data.title)}
+                pubDate={ prismicH.asDate(post.first_publication_date)?.toDateString()}
+                slug={post.uid}
+                summary={prismicH.asHTML(post.data.post_excerpt)}
                 />
-                {/each}
-                {' '}
-                </div>
-                </MainContainer>
+				<!-- {JSON.stringify(post)} -->
+			{/each}
+		<!-- {/await} -->
+		{' '}
+	</div>
+</MainContainer>

@@ -1,44 +1,38 @@
 <script>
-// @ts-nocheck
-import * as prismicH from "@prismicio/helpers";
-import {
-    SliceZone
-} from "@prismicio/svelte"
-import { onMount } from 'svelte';
-import Heading from "../../../slices/Heading.svelte";
-import Paragraph from "../../../slices/Paragraph.svelte";
-import Code from "../../../slices/Code.svelte";
-/** @type {import('./$types').PageData} */
-export let data;
-const doc = data.document.post_type
+	import Paragraph from 'src/slices/Paragraph.svelte';
+    /** @type {import('./$types').PageData} */
+    import * as prismicH from '@prismicio/helpers'
+    import { onMount } from 'svelte';
+    import {    SliceZone} from "@prismicio/svelte"
+	import Heading from 'src/slices/Heading.svelte';
+	import Code from 'src/slices/Code.svelte';
+    export let data;
+    const doc= data?.document;
+    let rtime = 0
+
+    onMount(() => {
+          const el = document.getElementById("article")?.innerText
+          rtime=GetReadingTime(String(el))
+     });
  
-let rtime = 0
-	onMount(() => {
-		 
-		//  console.log('loaded');
-         const el = document.getElementById("article").innerText
-         rtime=GetReadingTime(String(el))
-        // console.log(el);
-	});
+ //reading time
+ /**
+	 * @param {string} text
+	 */
+ function GetReadingTime(text){
+     // @ts-ignore
+      const wpm=255;
+      const words = String(text).trim().split(/\s+/).length;
+      console.log(words);
+     const time = Math.ceil(words / wpm);
+     return time ;
+ }
 
-//reading time
-function GetReadingTime(text){
-    // @ts-ignore
-     const wpm=255;
-     const words = String(text).trim().split(/\s+/).length;
-     console.log(words);
-    const time = Math.ceil(words / wpm);
-    return time ;
+const components={
+    heading_slice:Heading,
+    paragraph_slice:Paragraph,
+    code_slice:Code
 }
-
-
-const components = {
-    "heading_slice": Heading,
-    "paragraph_slice": Paragraph,
-    "code_slice": Code
-}
-
-
 
 </script>
 
@@ -49,7 +43,7 @@ const components = {
         <article class="  flex-col space-y-8 dark:bg-gray-800 dark:text-gray-50">
             <div class="space-y-6">
                 <h1 class="text-4xl font-bold md:tracking-tight md:text-5xl">
-                    {doc.title[0].text}
+                   {@html prismicH.asText( doc?.data?.title)}
                 </h1>
                 <div>
                     <!-- <summary>{document.post_excerpt[0].text}</summary> -->
@@ -62,7 +56,7 @@ const components = {
                             class="w-12 h-12 border rounded-md dark:bg-gray-500 dark:border-gray-700"
                             />
                         <p class="text-sm">
-                            {  "Devmnj"} •  {prismicH.asDate(doc._meta.lastPublicationDate).toDateString()}
+                            {  "Devmnj"} •  {prismicH.asDate(doc?.last_publication_date)?.toDateString()}
                         </p>
                     </div>
                     <p class="flex-shrink-0 mt-3 text-sm md:mt-0">
@@ -72,15 +66,15 @@ const components = {
             </div>
             <div class="place-content-center flex">
                 <img class="rounded"
-                    src={prismicH.asImageSrc(doc.featured_img_link)}
-                    srcset={prismicH.asImageWidthSrcSet(doc.featured_img_link).srcset}
-                    alt={doc.featured_img_link.alt}
+                    src={prismicH.asImageSrc(doc.data.featured_img_link)}
+                    srcset={prismicH.asImageWidthSrcSet(doc?.data.featured_img_link)?.srcset}
+                    alt={doc.data.featured_img_link.alt}
                     />
 
             </div>
             <div class="dark:text-gray-100" id="article">
 
-                <SliceZone slices={doc.body} {components} />
+                <SliceZone slices={doc.data.body} {components} />
 
             </div>
         </article>

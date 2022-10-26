@@ -24,7 +24,7 @@ export let slug= " ";
 
  <a
  rel="noopener noreferrer"
- href={`/posts/${slug || '404'}`}
+ href={`/${slug || '404'}`}
  class="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 dark:bg-gray-900"
 >
  <img

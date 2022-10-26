@@ -1,5 +1,5 @@
 
-<h3 align="center">Svelte-Prismic Blog </h3>
+<h3 align="center">Svelte-Prismic-RES API Blog </h3>
 
 <div align="center">
 
@@ -24,12 +24,12 @@
 
 ## 🧐 About <a name = "about"></a>
 
-The goal of the project is to setup complete blog using `SvelteKit` and the Prismic headless CMS.
+The project ultilised `Prismic client` for fetching data and Svelte Prismic Slice Zone for rendering content. Also uses Prismjs for highlighting code and tailwind for CSS, which makes developing UI easy .
 
 
 ### 🧒 Prerequisites <a name = "Prerequisites"></a>
 
-You have to familiar with `Javascript`, `Svelte` and `HTML`,`CSS`   in order to work with this project.
+You have to familiar with `Javascript`, `SvelteKit`,`Prismic` and `Tailwind`,`Prismjs`   in order to work with this project.
 
 ## ⌚ Using the project
 
@@ -51,7 +51,6 @@ yarn dev
 ## 🚀  Built Using <a name = "built_using"></a>
 
 - [SvelteKit](http://sveltekit.org/) - SvelteKit
-- [graphql-request](https://www.npmjs.com/package/graphql-request) - Graphql Client
 - [Tailwind CSS](https://tailwindcss.com/) - CSS Framework
 - [Prismic](https://prismic.o.com/) - Headless CMS
 - [PrismJS](https://prismjs.com/) - Used For Highlighting Prismic Slice code

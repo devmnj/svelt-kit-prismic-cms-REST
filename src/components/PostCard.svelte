@@ -13,7 +13,7 @@ export let pubDate =" "
 
  
     <a
-        href={`/posts/${slug}`}
+        href={`/${slug}`}
         rel="noopener noreferrer"
         class="rounded bg-gray-600"
         >
@@ -22,7 +22,7 @@ export let pubDate =" "
         <img
             role="presentation"
             class=""
-            src={ thumb}
+            src={thumb}
             />
           
         <div class="flex justify-between ">
@@ -34,7 +34,7 @@ export let pubDate =" "
             <h3 class="text-2xl font-semibold group-hover:underline group-focus:underline">
                 {title || "In usu laoreet repudiare legendos"}
             </h3>
-            <p class="align-baseline">{summary.trim()}</p>
+            <p class="align-baseline">{@html summary}</p>
         </div>
  
     </a>
